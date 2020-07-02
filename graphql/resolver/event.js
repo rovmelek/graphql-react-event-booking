@@ -23,7 +23,7 @@ module.exports = {
             throw err;
         }
     },
-    createEvent: async args => {
+    createEvent: async (args, req) => {
         // const event = {
         //     _id: Math.random().toString(),
         //     title: args.eventInput.title,
@@ -31,13 +31,16 @@ module.exports = {
         //     price: +args.eventInput.price,
         //     date: args.eventInput.date
         // };
+        if (!req.isAuth) {
+            throw new Error ('Unauthenticated!');
+        }
         const event = new Event({
             title: args.eventInput.title,
             description: args.eventInput.description,
             price: +args.eventInput.price,
             date: new Date(args.eventInput.date),
             // creator: '5ef945904b207e1c66714ab2'
-            creator: '5ef976b7bf0b122862b12203'
+            creator: req.userId
         });
         // events.push(event);
         let createdEvent;
