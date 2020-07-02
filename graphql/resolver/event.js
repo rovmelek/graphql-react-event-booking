@@ -37,10 +37,10 @@ module.exports = {
         const event = new Event({
             title: args.eventInput.title,
             description: args.eventInput.description,
-            price: +args.eventInput.price,
+            price: +args.eventInput.price, // "+" will convert to number (float)
             date: new Date(args.eventInput.date),
             // creator: '5ef945904b207e1c66714ab2'
-            creator: req.userId
+            creator: req.userId,
         });
         // events.push(event);
         let createdEvent;
