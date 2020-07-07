@@ -78,12 +78,17 @@ class AuthPage extends Component {
       return res.json();
     }).then(resData => {
       console.log(resData);
-      if (resData.data.login.token) {
+      // since the query can be either a query-login or mutation-createUser, the returned resData might not have the login.token property
+      if (resData.data.createUser) {
+        console.log(`${resData.data.createUser.email} is created!`);
+      } else if (resData.data.login.token) {
         this.context.login(
           resData.data.login.userId,
           resData.data.login.token,
           resData.data.login.tokenExpiration,
         );
+      } else {
+        console.log('Why are we here?!');
       }
     }).catch(err => {
       console.log(err);
