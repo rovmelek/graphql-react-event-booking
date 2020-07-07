@@ -2,14 +2,14 @@ import React from "react";
 import { Component } from "react";
 
 import './Auth.css';
-import AuthCOntext from '../context/auth-context';
+import AuthContext from '../context/auth-context';
 
 class AuthPage extends Component {
   state = {
     isLogin: true,
   }
 
-  static contextType = AuthCOntext;
+  static contextType = AuthContext;
 
   constructor(props) {
     super(props);
@@ -83,8 +83,8 @@ class AuthPage extends Component {
         console.log(`${resData.data.createUser.email} is created!`);
       } else if (resData.data.login.token) {
         this.context.login(
-          resData.data.login.userId,
           resData.data.login.token,
+          resData.data.login.userId,
           resData.data.login.tokenExpiration,
         );
       } else {

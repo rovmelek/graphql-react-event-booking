@@ -45,7 +45,8 @@ module.exports = {
         // events.push(event);
         let createdEvent;
         try {
-            const existingUser = await User.findById('5ef976b7bf0b122862b12203');
+            const existingUser = await User.findById(req.userId);
+            // const existingUser = await User.findById('5ef976b7bf0b122862b12203');
             // const existingUser = await User.findById('5ef945904b207e1c66714ab2');
             if (!existingUser) {
                 throw new Error('User does not exist.');
