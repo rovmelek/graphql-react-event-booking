@@ -4,11 +4,14 @@ import { Component } from "react";
 import Spinner from "../component/Spinner/Spinner";
 import AuthContext from "../context/auth-context";
 import BookingList from "../component/Booking/BookingList";
+import BookingChart from "../component/Booking/BookingChart";
+import BookingControl from "../component/Booking/BookingControl";
 
 class BookingPage extends Component {
   state = {
     isLoading: false,
     bookings: [],
+    outputType: "list",
   };
 
   static contextType = AuthContext;
@@ -28,6 +31,7 @@ class BookingPage extends Component {
               _id
               title
               date
+              price
             }
             createdAt
           }
@@ -123,19 +127,37 @@ class BookingPage extends Component {
       });
   };
 
+  changeOutputTypeHandler = (outputType) => {
+    if (outputType === "list") {
+      this.setState({ outputType: "list" });
+    } else {
+      this.setState({ outputType: "chart" });
+    }
+  };
+
   render() {
-    return (
-      <React.Fragment>
-        {this.state.isLoading ? (
-          <Spinner />
-        ) : (
-          <BookingList
-            bookings={this.state.bookings}
-            onDelete={this.deleteBookingHandler}
+    let content = <Spinner />;
+    if (!this.state.isLoading) {
+      content = (
+        <React.Fragment>
+          <BookingControl
+            activeOutputType={this.state.outputType}
+            onChange={this.changeOutputTypeHandler}
           />
-        )}
-      </React.Fragment>
-    );
+          <div>
+            {this.state.outputType === "list" ? (
+              <BookingList
+                bookings={this.state.bookings}
+                onDelete={this.deleteBookingHandler}
+              />
+            ) : (
+              <BookingChart bookings={this.state.bookings} />
+            )}
+          </div>
+        </React.Fragment>
+      );
+    }
+    return <React.Fragment>{content}</React.Fragment>;
   }
 }
 

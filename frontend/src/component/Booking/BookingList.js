@@ -9,7 +9,8 @@ const bookingList = (props) => {
         return (
           <li className="bookings__item" key={el._id}>
             <div className="bookings__item-data">
-              {el.event.title} - {new Date(el.createdAt).toLocaleDateString()}
+              {el.event.title} - {new Date(el.createdAt).toLocaleDateString()} -
+              ${el.event.price}
             </div>
             <div className="bookings__item-actions">
               <button
