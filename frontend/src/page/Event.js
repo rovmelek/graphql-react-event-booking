@@ -59,8 +59,8 @@ class EventPage extends Component {
 
     const requestBody = {
       query: `
-        mutation {
-          createEvent(eventInput: {title: "${title}", description: "${description}", price: ${price}, date: "${date}"}) {
+        mutation CreateEvent($title: String!, $description: String!, $price: Float!, $date: String!) {
+          createEvent(eventInput: {title: $title, description: $description, price: $price, date: $date}) {
             _id
             title
             description
@@ -69,6 +69,12 @@ class EventPage extends Component {
           }
         }
       `,
+      variables: {
+        title: title,
+        description: description,
+        price: price,
+        date: date,
+      },
     };
 
     console.log(this.context);
@@ -186,14 +192,17 @@ class EventPage extends Component {
 
     const requestBody = {
       query: `
-        mutation {
-           bookEvent(eventId: "${this.state.selectedEvent._id}") {
+        mutation BookEvent($id: ID!) {
+           bookEvent(eventId: $id) {
             _id
             createdAt
             updatedAt
           }
         }
       `,
+      variables: {
+        id: this.state.selectedEvent._id,
+      },
     };
 
     console.log(this.context);
